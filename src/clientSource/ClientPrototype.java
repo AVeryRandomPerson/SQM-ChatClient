@@ -7,27 +7,32 @@ import java.net.Socket;
 
 public class ClientPrototype{
 	
-	public static void main (String[] args) throws Exception{
-		Socket clientSocket = new Socket("localhost",9000);
-		InputListener inListener = new InputListener(clientSocket);
-		Thread inlisteningThread = new Thread(inListener);
-		PrintStream outputStream=new PrintStream(clientSocket.getOutputStream());
-		BufferedReader cmdInputStream=new BufferedReader(new InputStreamReader(System.in));		
-		
-
-		inlisteningThread.start();		
+	Socket clientSocket;
+	InputListener inListener;
+	PrintStream outputStream;
+	BufferedReader clientCommandStream;
+	
+	ClientPrototype(String ipAddress, int portNumber) throws Exception{
+		this.clientSocket = new Socket(ipAddress,portNumber);
+		this.inListener = new InputListener(clientSocket);
+		this.outputStream=new PrintStream(clientSocket.getOutputStream());
+		this.clientCommandStream=new BufferedReader(new InputStreamReader(System.in));
+	}
+	
+	public void runClient() throws Exception {
+		Thread inListeningThread = new Thread(inListener);
+		inListeningThread.start();		
 		String userCommand;
 		while (  true ){
 			Thread.sleep(75);
-			System.out.print("Client : ");
-			userCommand=cmdInputStream.readLine();			
+			System.out.print("[ Client ] > ");
+			userCommand= clientCommandStream.readLine();			
 			outputStream.println(userCommand);
 			
 			if(userCommand.length() >= 4 && userCommand.substring(0,4).contains("QUIT")){
-				inlisteningThread.interrupt();
+				inListeningThread.interrupt();
 				break;
 			}
-			
 		}
 	}
 }
