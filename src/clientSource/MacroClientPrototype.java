@@ -7,7 +7,7 @@ public class MacroClientPrototype extends ClientPrototype{
 	private final int RESPONSE_TIME = 500;
 	
 	
-	MacroClientPrototype(String ipAddress, int portNumber, Queue<String> commandsQueue) throws Exception{
+	public MacroClientPrototype(String ipAddress, int portNumber, Queue<String> commandsQueue) throws Exception{
 		super(ipAddress,portNumber);
 		this.commandsQueue = commandsQueue;
 		
@@ -26,6 +26,7 @@ public class MacroClientPrototype extends ClientPrototype{
 			outputStream.println(userCommand);
 			
 			if(userCommand.length() >= 4 && userCommand.substring(0,4).contains("QUIT")){
+				inListeningThread.interrupt();
 				break;
 			}
 		}

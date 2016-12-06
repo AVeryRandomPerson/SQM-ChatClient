@@ -25,12 +25,11 @@ public class InputListener implements Runnable{
 		while(true){
 			try {
 				String response = inputStream.readLine();
-				serverResponses.add(response);
-				System.out.println("[ Server ] > " + response);
 				if (response == null || ( response.contains(", goodbye") && response.substring(0, 2).equals("OK")) ){
-					System.out.println("TERMINATING LISTENER");
 					break;
 				}
+				serverResponses.add(response);
+				System.out.println("[ Server ] > " + response);
 			} catch (IOException e) {
 				System.err.println("Unable to read Response");
 				e.printStackTrace();

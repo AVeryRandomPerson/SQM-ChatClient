@@ -8,9 +8,9 @@ import java.net.Socket;
 public class ClientPrototype{
 	
 	Socket clientSocket;
-	InputListener inListener;
 	PrintStream outputStream;
 	BufferedReader clientCommandStream;
+	InputListener inListener;
 	
 	ClientPrototype(String ipAddress, int portNumber) throws Exception{
 		this.clientSocket = new Socket(ipAddress,portNumber);
@@ -34,5 +34,9 @@ public class ClientPrototype{
 				break;
 			}
 		}
+	}
+	
+	public InputListener getInputListener(){
+		return inListener;
 	}
 }
