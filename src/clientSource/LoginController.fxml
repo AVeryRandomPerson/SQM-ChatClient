@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="loginInterface" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="117.0" prefWidth="326.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientSource.LoginController">
+   <children>
+      <TextField fx:id="usernameTextField" alignment="CENTER" onAction="#textFieldEnterChatWindow" onKeyReleased="#updateLoginButton" prefHeight="34.0" prefWidth="326.0" promptText="Enter a Username">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Button fx:id="loginButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#enterChatWindow" prefHeight="37.0" prefWidth="83.0" text="Log In" />
+      <Label fx:id="serverStatusLabel" alignment="CENTER" text="Server is Live">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>

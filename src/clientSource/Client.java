@@ -28,11 +28,25 @@ public class Client {
         outWrite = new PrintWriter(clientSocket.getOutputStream(), true);
     }
 
-    /* No Need Validation. For now.
-    public String loginValidate(String username, String password){
-        String command = "IDEN " + username + " " + password;
-        sendOverConnection(command);
+    public String verifyUser(String username){
+        String command = "IDEN " + username;
         String response = "";
+
+        sendOverConnection(command);
+        try {
+            response = inRead.readLine();
+        } catch (IOException e) {
+            System.out.println("ERROR receiving response from server");
+            e.printStackTrace();
+        }
+        
+        return response;
+    }
+
+    public String sendMessageToUser(String message, String username){
+        String command = "MESG " + username + " " + message;
+        String response = "";
+        sendOverConnection(command);
         try {
             response = inRead.readLine();
         } catch (IOException e) {
@@ -40,11 +54,6 @@ public class Client {
             e.printStackTrace();
         }
         return response;
-    }*/
-
-    public void sendMessageToUser(String message, String username){
-        String command = "MESG " + username + " " + message;
-        sendOverConnection(command);
     }
 
     public String getServerMessage(){
@@ -95,7 +104,7 @@ public class Client {
         outWrite.println(command);
     }
 
-    public boolean validResponse(String response){
+    public boolean isReceivedValid(String response){
         return response.substring(0,2).equals("OK");
     }
 
