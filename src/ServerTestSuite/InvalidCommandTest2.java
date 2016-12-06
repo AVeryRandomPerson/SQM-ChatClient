@@ -9,19 +9,19 @@ import org.junit.Test;
 
 import clientSource.MacroClientPrototype;
 
-public class ServerBreakEmptyCommandTest {
+public class InvalidCommandTest2 {
 
-	// Case of Empty Command.
+	// Case of Invalid Command #2
 	@Test
 	public void test() throws Exception {
 		Queue<String> emptyCommand = new LinkedList<String>();
 		Queue<String> expectedOutput = new LinkedList<String>();
 		
-		emptyCommand.add("");
+		emptyCommand.add("\\n\\n");
 		emptyCommand.add("QUIT");
 		
 		expectedOutput.add("OK Welcome to the chat server, there are currently 1 user(s) online");
-		expectedOutput.add("BAD invalid command to server");
+		expectedOutput.add("BAD command not recognised");
 		expectedOutput.add("OK goodbye.");
 		
 		MacroClientPrototype bot_emptyCommand = new MacroClientPrototype("localhost",9000,emptyCommand);

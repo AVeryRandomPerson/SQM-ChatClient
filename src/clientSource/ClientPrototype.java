@@ -19,7 +19,7 @@ public class ClientPrototype{
 		this.clientCommandStream=new BufferedReader(new InputStreamReader(System.in));
 	}
 	
-	public void runClient() throws Exception {
+	public synchronized void runClient() throws Exception {
 		Thread inListeningThread = new Thread(inListener);
 		inListeningThread.start();		
 		String userCommand;
@@ -30,7 +30,6 @@ public class ClientPrototype{
 			outputStream.println(userCommand);
 			
 			if(userCommand.length() >= 4 && userCommand.substring(0,4).contains("QUIT")){
-				inListeningThread.interrupt();
 				break;
 			}
 		}

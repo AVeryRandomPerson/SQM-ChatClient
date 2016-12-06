@@ -21,12 +21,13 @@ public class InputListener implements Runnable{
 		this.inputStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	}
 		
-	public void run(){
-		while(true){
+	public synchronized void run(){
+		Boolean connectionOn = true;
+		while(connectionOn){
 			try {
 				String response = inputStream.readLine();
-				if (response == null || ( response.contains(", goodbye") && response.substring(0, 2).equals("OK")) ){
-					break;
+				if (response == null || ( response.contains(" goodbye.") && response.substring(0, 2).equals("OK")) ){
+					connectionOn = false;
 				}
 				serverResponses.add(response);
 				System.out.println("[ Server ] > " + response);

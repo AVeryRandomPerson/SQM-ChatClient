@@ -13,7 +13,7 @@ public class MacroClientPrototype extends ClientPrototype{
 		
 	}
 	
-	public void executeMacro() throws Exception{
+	public synchronized void executeMacro() throws Exception{
 		Thread inListeningThread = new Thread(inListener);
 		inListeningThread.start();		
 		String userCommand;

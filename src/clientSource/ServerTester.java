@@ -17,5 +17,9 @@ public class ServerTester{
 		}
 		return true;
 	}
+	public static void main(String[] args) throws Exception{
+		ClientPrototype client = new ClientPrototype("localhost",9000);
+		client.runClient();
+	}
 	
 }

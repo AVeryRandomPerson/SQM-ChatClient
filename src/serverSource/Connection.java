@@ -123,7 +123,7 @@ public class Connection implements Runnable {
 	private void iden(String message) {
 		switch(state) {
 			case STATE_REGISTERED:
-				sendOverConnection("BAD you are already registerd with username " + username);
+				sendOverConnection("BAD you are already registered with username " + username);
 				break;
 			
 			case STATE_UNREGISTERED:
