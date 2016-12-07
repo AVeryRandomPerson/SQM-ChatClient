@@ -7,25 +7,34 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Connection implements Runnable {
+public class TestConnection implements Runnable {
 	
-	final static int STATE_UNREGISTERED = 0;
-	final static int STATE_REGISTERED = 1;
+	public final static int STATE_UNREGISTERED = 0;
+	public final static int STATE_REGISTERED = 1;
 	
 	private volatile boolean running;
 	private int messageCount;
 	private int state;
 	private Socket client;
-	private Server serverReference;
+	private TestServer serverReference;
 	private BufferedReader in;
 	private PrintWriter out;
 	private String username;
 	
-	Connection (Socket client, Server serverReference) {
+	public String commandReceived = "";
+	
+	public TestConnection (Socket client, TestServer serverReference) {
 		this.serverReference = serverReference;
 		this.client = client;
 		this.state = STATE_UNREGISTERED;
 		messageCount = 0;
+	}
+	
+	public void setCommandReceived(String cmd){
+		this.commandReceived = cmd;
+	}
+	public String getCommandReceived(){
+		return this.commandReceived;
 	}
 	
 	public void run(){
@@ -50,10 +59,11 @@ public class Connection implements Runnable {
 		}
 	}
 	
-	private void validateMessage(String message) {
+	public void validateMessage(String message) {
+		setCommandReceived(message);
 		if(message.length() < 4){
 			sendOverConnection ("BAD invalid command to server");
-		} else if(message.length() == 4){
+		} else {
 			switch(message.substring(0,4)){
 				case "LIST":
 					list();
@@ -62,17 +72,7 @@ public class Connection implements Runnable {
 				case "STAT":
 					stat();
 					break;
-
-				case "QUIT":
-					quit();
-					break;		
 					
-				default:
-					sendOverConnection("BAD command not recognised");
-					break;
-			}
-		} else {
-			switch(message.substring(0,4)){
 				case "IDEN":
 					iden(message.substring(5));
 					break;
@@ -85,6 +85,10 @@ public class Connection implements Runnable {
 					mesg(message.substring(5));
 					break;
 				
+				case "QUIT":
+					quit();
+					break;
+				
 				default:
 					sendOverConnection("BAD command not recognised");
 					break;
@@ -93,7 +97,7 @@ public class Connection implements Runnable {
 			
 	}
 	
-	private void stat() {
+	public void stat() {
 		String status = "There are currently "+serverReference.getNumberOfUsers()+" user(s) on the server ";
 		switch(state) {
 			case STATE_REGISTERED:
@@ -107,7 +111,7 @@ public class Connection implements Runnable {
 		sendOverConnection("OK " + status);
 	}
 	
-	private void list() {
+	public void list() {
 		switch(state) {
 			case STATE_REGISTERED:
 				ArrayList<String> userList = serverReference.getUserList();
@@ -125,7 +129,7 @@ public class Connection implements Runnable {
 		
 	}
 	
-	private void iden(String message) {
+	public void iden(String message) {
 		switch(state) {
 			case STATE_REGISTERED:
 				sendOverConnection("BAD you are already registered with username " + username);
@@ -144,7 +148,7 @@ public class Connection implements Runnable {
 		}	
 	}
 	
-	private void hail(String message) {
+	public void hail(String message) {
 		switch(state) {
 			case STATE_REGISTERED:
 				serverReference.broadcastMessage("Broadcast from " + username + ": " + message);
@@ -161,7 +165,7 @@ public class Connection implements Runnable {
 		return running;
 	}
 	
-	private void mesg(String message) {
+	public void mesg(String message) {
 		
 		switch(state) {
 			case STATE_REGISTERED:
@@ -187,7 +191,7 @@ public class Connection implements Runnable {
 		}
 	}
 	
-	private void quit() {
+	public void quit() {
 		switch(state) {
 			case STATE_REGISTERED:
 				sendOverConnection("OK thank you for sending " + messageCount + " message(s) with the chat service, goodbye.");
@@ -206,7 +210,7 @@ public class Connection implements Runnable {
 		serverReference.removeDeadUsers();
 	}
 	
-	private synchronized void sendOverConnection (String message){
+	public synchronized void sendOverConnection (String message){
 		out.println(message);
 	}
 	

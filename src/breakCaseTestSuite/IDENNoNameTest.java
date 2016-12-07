@@ -9,15 +9,15 @@ import org.junit.Test;
 
 import clientSource.MacroClientPrototype;
 
-public class InvalidCommandTest1 {
+public class IDENNoNameTest {
 
-	// Case of Invalid Command #1
+	// Case of Empty MESG without logging in
 	@Test
 	public void test() throws Exception {
 		Queue<String> emptyCommand = new LinkedList<String>();
 		Queue<String> expectedOutput = new LinkedList<String>();
 		
-		emptyCommand.add("STTA");
+		emptyCommand.add("IDEN");
 		emptyCommand.add("QUIT");
 		
 		expectedOutput.add("OK Welcome to the chat server, there are currently 1 user(s) online");

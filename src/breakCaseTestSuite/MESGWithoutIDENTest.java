@@ -1,4 +1,4 @@
-package ServerTestSuite;
+package breakCaseTestSuite;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,7 +17,7 @@ public class MESGWithoutIDENTest {
 		Queue<String> emptyCommand = new LinkedList<String>();
 		Queue<String> expectedOutput = new LinkedList<String>();
 		
-		emptyCommand.add("MESG chatBOT1 I'm a pancake.");
+		emptyCommand.add("MESG chatBot1 Greetings");
 		emptyCommand.add("QUIT");
 		
 		expectedOutput.add("OK Welcome to the chat server, there are currently 1 user(s) online");

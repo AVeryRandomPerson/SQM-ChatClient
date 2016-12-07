@@ -1,4 +1,4 @@
-package ServerTestSuite;
+package breakCaseTestSuite;
 
 import java.util.Queue;
 

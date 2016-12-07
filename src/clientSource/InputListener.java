@@ -16,7 +16,7 @@ public class InputListener implements Runnable{
 	BufferedReader cmdIn;
 	Queue<String> serverResponses = new LinkedList<String>();
 	
-	InputListener(Socket clientSocket) throws IOException{
+	public InputListener(Socket clientSocket) throws IOException{
 		this.clientSocket = clientSocket;
 		this.inputStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	}

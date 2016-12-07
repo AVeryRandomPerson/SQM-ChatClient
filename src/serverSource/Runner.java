@@ -8,6 +8,8 @@ public class Runner
 	
 	public static void main(String[] args){
 		server = new Server(PORT);
+		Thread serverThread = new Thread(server);
+		serverThread.start();
 	}
 	
 	

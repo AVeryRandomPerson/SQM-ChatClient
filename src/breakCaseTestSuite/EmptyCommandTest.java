@@ -1,4 +1,4 @@
-package ServerTestSuite;
+package breakCaseTestSuite;
 
 import static org.junit.Assert.assertEquals;
 

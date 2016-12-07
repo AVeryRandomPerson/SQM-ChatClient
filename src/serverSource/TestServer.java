@@ -6,16 +6,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class Server implements Runnable{
+public class TestServer implements Runnable{
 
-	private ServerSocket server;
-	private ArrayList<Connection> list;
-	private int port;
+	public ServerSocket server;
+	public ArrayList<TestConnection> list;
+	public int port;
 	
-	
-	
-	
-	public Server (int port) {
+	public TestServer (int port) {
 		this.port = port;
 	}
 	
@@ -28,11 +25,11 @@ public class Server implements Runnable{
 			System.err.println("error initialising server");
 			e.printStackTrace();
 		}
-		list = new ArrayList<Connection>();
+		list = new ArrayList<TestConnection>();
 		while(true) {
-				Connection c = null;
+				TestConnection c = null;
 				try {
-					c = new Connection(server.accept(), this);
+					c = new TestConnection(server.accept(), this);
 				}
 				catch (IOException e) {
 					System.err.println("error setting up new client connection");
@@ -46,7 +43,7 @@ public class Server implements Runnable{
 	
 	public ArrayList<String> getUserList() {
 		ArrayList<String> userList = new ArrayList<String>();
-		for( Connection clientThread: list){
+		for( TestConnection clientThread: list){
 			if(clientThread.getState() == Connection.STATE_REGISTERED) {
 				userList.add(clientThread.getUserName());
 			}
@@ -65,13 +62,13 @@ public class Server implements Runnable{
 	
 	public void broadcastMessage(String theMessage){
 		System.out.println(theMessage);
-		for( Connection clientThread: list){
+		for( TestConnection clientThread: list){
 			clientThread.messageForConnection(theMessage + System.lineSeparator());	
 		}
 	}
 	
 	public boolean sendPrivateMessage(String message, String user) {
-		for( Connection clientThread: list) {
+		for( TestConnection clientThread: list) {
 			if(clientThread.getState() == Connection.STATE_REGISTERED) {
 				if(clientThread.getUserName().compareTo(user)==0) {
 					clientThread.messageForConnection(message + System.lineSeparator());
@@ -83,9 +80,9 @@ public class Server implements Runnable{
 	}
 	
 	public void removeDeadUsers(){
-		Iterator<Connection> it = list.iterator();
+		Iterator<TestConnection> it = list.iterator();
 		while (it.hasNext()) {
-			Connection c = it.next();
+			TestConnection c = it.next();
 			if(!c.isRunning())
 				it.remove();
 		}
